@@ -56,7 +56,7 @@ export default {
                     return
                 }
             }
-            axios.post('/submitQuestionnaire',{
+            axios.post('/analyse',{
                 questionnaire:this.ans
             }).then(res=>{
                 console.log(res)
