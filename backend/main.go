@@ -17,7 +17,6 @@ type Config struct {
 	Port string `json:"port"`
 }
 
-var host string
 var config Config
 
 func init() {
@@ -31,7 +30,7 @@ func init() {
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println(config.Host + ":" + config.Port)
+	fmt.Println("load config succeed ", config.Host+":"+config.Port)
 }
 
 type Analyser interface {
