@@ -10,7 +10,8 @@ import (
 )
 
 type Analyser interface {
-	Analyse(ans []int) (attachmentStyles, description string, rateOfIntimacy, rateOfAnxiety float64, err error)
+	Analyse(ans []int) (rateOfIntimacy, rateOfAnxiety int, err error)
+	GetResult() (attachmentStyle, description string)
 }
 
 type AnswerSheet struct {
@@ -34,11 +35,11 @@ func main() {
 	// analyse the answer sheet
 	var analyser Analyser
 	analyser = AnalyserFuzzy.New()
-	attachmentStyle, description, rateOfIntimacy, rateOfAnxiety, err := analyser.Analyse(as.Ans)
+	rateOfIntimacy, rateOfAnxiety, err := analyser.Analyse(as.Ans)
 	if err != nil {
 		log.Fatal(err)
 	}
-
+	attachmentStyle, description := analyser.GetResult()
 	// write response
 	fmt.Println(attachmentStyle, description, rateOfIntimacy, rateOfAnxiety)
 }
