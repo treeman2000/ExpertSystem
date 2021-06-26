@@ -22,3 +22,8 @@
     'rate of anxiety about abandonment':double//焦虑维度得分
 }
 ```
+
+## 前端页面
+1. 开始测试
+2. 测试问卷页面
+3. 结果页面

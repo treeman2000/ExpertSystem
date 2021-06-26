@@ -1,18 +1,30 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="full">
+    <h1 id="header">依恋类型测试</h1>
+    <br/>
+    <div class="full" id="body">
+      <el-button type='primary' @click='startQuestionnaire'>开始测试</el-button>
+    </div>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
 
 export default {
   name: 'Home',
-  components: {
-    HelloWorld
+  methods:{
+    startQuestionnaire(){
+      this.$router.push('Questionnaire')
+    }
   }
 }
 </script>
+
+<style scoped>
+#header{
+  padding:5% 0
+}
+.full{
+  text-align: center;
+}
+</style>
