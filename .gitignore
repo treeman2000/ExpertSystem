@@ -23,5 +23,5 @@ pnpm-debug.log*
 *.sw?
 
 # target files
-/static/
-/ExpertSystem.exe
+# /static/
+# /ExpertSystem.exe

@@ -3,11 +3,36 @@ package main
 import (
 	"ExpertSystem/AnalyserFuzzy"
 	"encoding/json"
+	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/gin-gonic/gin"
 )
+
+type Config struct {
+	Host string `json:"host"`
+	Port string `json:"port"`
+}
+
+var host string
+var config Config
+
+func init() {
+	// load config
+	f, err := os.Open("config.json")
+	configBytes, err := ioutil.ReadAll(f)
+	if err != nil {
+		log.Fatal("load config failed")
+	}
+	err = json.Unmarshal(configBytes, &config)
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println(config.Host + ":" + config.Port)
+}
 
 type Analyser interface {
 	Analyse(ans []int) (rateOfIntimacy, rateOfAnxiety int, err error)
@@ -27,7 +52,7 @@ func main() {
 	r.StaticFS("/js", http.Dir("./static/js"))
 	r.StaticFS("/fonts", http.Dir("./static/fonts"))
 	r.POST("/analyse", Analyse)
-	r.Run("127.0.0.1:80")
+	r.Run(config.Host + ":" + config.Port)
 }
 
 func Index(c *gin.Context) {
@@ -41,15 +66,14 @@ func Analyse(c *gin.Context) {
 	// 	log.Fatal(err)
 	// }
 	// jsonBytes, err := ioutil.ReadAll(f)
-	ansStr := c.Request.FormValue("ans")
-	ansStr = `{"ans":` + ansStr + `}`
-	// fmt.Println(ansStr)
+
+	jsonBytes, err := ioutil.ReadAll(c.Request.Body)
+	// fmt.Println(string(jsonBytes))
 	var as AnswerSheet
-	err := json.Unmarshal([]byte(ansStr), &as)
+	err = json.Unmarshal(jsonBytes, &as)
 	if err != nil {
 		log.Fatal(err)
 	}
-	// fmt.Println(as)
 
 	// analyse the answer sheet
 	var analyser Analyser

@@ -9,7 +9,7 @@
             <el-radio v-model="ans[i]" label=3>不确定</el-radio>
             <el-radio v-model="ans[i]" label=4>较符合</el-radio>
             <el-radio v-model="ans[i]" label=5>完全符合</el-radio>
-            ans[i]={{ans[i]}}
+            <!-- ans[i]={{ans[i]}} -->
             <br/>
         </el-form-item>
         <el-form-item id="submitButton">
@@ -21,7 +21,7 @@
 
 <script>
 import axios from 'axios'
-const length=18//number of questions
+const length=18 //number of questions
 export default {
     name:"Questionnaire",
     data(){
@@ -56,10 +56,17 @@ export default {
                     return
                 }
             }
+            for(let i=0;i<length;i++){
+                this.ans[i]=eval(this.ans[i])
+            }
             axios.post('/analyse',{
-                questionnaire:this.ans
+                ans:this.ans
             }).then(res=>{
-                console.log(res)
+                // console.log(res)
+                this.$router.push({
+                    path:'/result',
+                    query:res.data
+                })
             }).catch(err=>{
                 console.log('error!')
                 console.log(err)
